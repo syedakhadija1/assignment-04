@@ -1,30 +1,61 @@
-# BMI Calculator Web App
-
 import streamlit as st
+import pandas as pd
 
-st.title("BMI Calculator")
+st.set_page_config(page_title="BMI Calculator", layout="centered")
 
-st.sidebar.header("User Input")
+st.markdown("""
+    <style>
+    body {
+        background-color: #000000;
+        color: white;
+    }
+    [data-testid="stAppViewContainer"] {
+        background-color: #000000;
+    }
+    [data-testid="stHeader"] {
+        background-color: #000000;
+    }
+    [data-testid="stSidebar"] {
+        background-color: #000000;
+    }
+    h1, h2, h3, p, li {
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .stSlider > div > div > div {
+        background-color: red;
+    }
+    div[data-baseweb="slider"] span {
+        background-color: red !important;
+    }
+    ul {
+        color: white; /* Make the list items white */
+    }
+    h3 {
+        color: white; /* Make the heading white */
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-def user_input_features():
-    weight = st.sidebar.number_input("Weight (kg)", min_value=1.0, max_value=300.0, value=70.0)
-    height = st.sidebar.number_input("Height (m)", min_value=0.5, max_value=3.0, value=1.75)
-    return weight, height
+st.markdown("## **BMI Caclculator**")  
 
-weight, height = user_input_features()
+st.markdown("#### Enter your height (in cm):")
+height = st.slider("", 100, 250, 175, key="height")
 
-bmi = weight / (height ** 2)
+st.markdown("#### Enter your weight (in kg):")
+weight = st.slider("", 40, 200, 70, key="weight")
 
-st.write(f"Your BMI is: {bmi:.2f}")
+height_m = height / 100
+bmi = weight / (height_m ** 2)
 
-if bmi < 18.5:
-    st.write("You are underweight.")
-elif 18.5 <= bmi < 24.9:
-    st.write("You have a normal weight.")
-elif 25 <= bmi < 29.9:
-    st.write("You are overweight.")
-else:
-    st.write("You are obese.")
+st.markdown(f"### Your BMI is **{bmi:.2f}**")
 
-st.sidebar.subheader("About")
-st.sidebar.text("This is a simple BMI calculator built with Streamlit.")
+st.markdown("## 🔗 **BMI Categories**")
+st.markdown("""
+<ul>
+    <li>Underweight: BMI less than 18.5</li>
+    <li>Normal weight: BMI between 18.5 and 24.9</li>
+    <li>Overweight: BMI between 25 and 29.9</li>
+    <li>Obesity: BMI 30 or greater</li>
+</ul>
+""", unsafe_allow_html=True)
